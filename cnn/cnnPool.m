@@ -30,6 +30,18 @@ pooledFeatures = zeros(convolvedDim / poolDim, ...
 %   Use mean pooling here.
 
 %%% YOUR CODE HERE %%%
+for imageNum = 1:numImages
+  for filterNum = 1:numFilters
+      convolvedFeature = convolvedFeatures(:,:,filterNum, imageNum);
+      pooledFeature = conv2(convolvedFeature, ones(poolDim), 'valid');
+      % subsampling
+      pooledFeature = pooledFeature(1:poolDim:convolvedDim, 1:poolDim:convolvedDim);
+      % arveraging
+      pooledFeature = pooledFeature / (poolDim*poolDim);
+      
+      pooledFeatures(:, :, filterNum, imageNum) = pooledFeature;
+  end
+end
 
 end
 

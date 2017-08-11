@@ -53,6 +53,9 @@ if DEBUG
     
     [cost grad] = cnnCost(db_theta,db_images,db_labels,numClasses,...
                                 db_filterDim,db_numFilters,db_poolDim);
+                            
+%     [cost2 grad2] = cnnCost2(db_theta,db_images,db_labels,numClasses,...
+%                                 db_filterDim,db_numFilters,db_poolDim);
     
 
     % Check gradients
@@ -70,6 +73,7 @@ if DEBUG
  
     assert(diff < 1e-9,...
         'Difference too large. Check your gradient computation again');
+    return;
     
 end;
 

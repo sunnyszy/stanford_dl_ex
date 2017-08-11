@@ -25,12 +25,13 @@ ei.input_dim = 784;
 % number of output classes
 ei.output_dim = 10;
 % sizes of all hidden layers and the output layer
-ei.layer_sizes = [256, ei.output_dim];
+ei.layer_sizes = [256, 64, ei.output_dim];
 % scaling parameter for l2 weight regularization penalty
-ei.lambda = 0;
+ei.lambda = 0.01;
 % which type of activation function to use in hidden layers
 % feel free to implement support for only the logistic sigmoid function
 ei.activation_fun = 'logistic';
+debug = false;
 
 %% setup random initial weights
 stack = initialize_weights(ei);
@@ -41,6 +42,21 @@ options = [];
 options.display = 'iter';
 options.maxFunEvals = 1e6;
 options.Method = 'lbfgs';
+
+% %% debug forward prop
+% [~, ~, pred] = supervised_dnn_cost( params, ei, data_test, [], true);
+% [~,pred] = max(pred);
+% acc_test = mean(pred'==labels_test);
+% fprintf('test accuracy: %f\n', acc_test);
+if debug
+    test_n = 20;
+    tmp_data = data_train(:, 1:test_n);
+    tmp_labels = labels_train(1:test_n, :);
+    error = grad_check(@supervised_dnn_cost, params, test_n, ei, tmp_data, tmp_labels);
+    assert(error < 0.000001, 'gradient is wrong');
+    return;
+end
+
 
 %% run training
 [opt_params,opt_value,exitflag,output] = minFunc(@supervised_dnn_cost,...

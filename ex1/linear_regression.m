@@ -22,3 +22,5 @@ function [f,g] = linear_regression(theta, X,y)
   %        computed gradient in 'g'.
   
 %%% YOUR CODE HERE %%%
+f = 0.5*(transpose(theta)*X - y) * transpose((transpose(theta)*X - y));
+g = X * transpose(transpose(theta)*X - y);
